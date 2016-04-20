@@ -9,6 +9,7 @@ import hu.codingmentor.mobile.webshop.service.InventoryService;
 import hu.codingmentor.mobile.webshop.service.UserManagementService;
 import java.io.Serializable;
 import java.util.List;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,16 +22,17 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 @Path("/cart")
-public class CartRESTService implements Serializable {
+@SessionScoped
+public class CartRESTService implements Serializable{
 
     @Inject
-    CartService cartService;
+    private transient CartService cartService;
 
     @Inject
-    InventoryService inventoryService;
+    private transient InventoryService inventoryService;
 
     @Inject
-    UserManagementService userService;
+    private transient UserManagementService userService;
 
     @POST
     @Path("/")
@@ -42,8 +44,8 @@ public class CartRESTService implements Serializable {
         if (null != userAttribute && userAttribute instanceof UserDTO) {
             UserDTO user = (UserDTO) userAttribute;
             if (userService.getUserByUsername(user.getUsername()) != null) {
-                cartService.addToCart(mobile);
                 inventoryService.removeMobile(mobile);
+                cartService.addToCart(mobile);
                 return cartService.getCart();
             }else
                 throw new UserDontExsistException("User don't exist! Registrate first!");
@@ -70,7 +72,8 @@ public class CartRESTService implements Serializable {
 
     @POST
     @Path("/checkout")
-    public void checkout() {
+    public String checkout() {
         cartService.checkout();
+        return "Checkout successfully";
     }
 }

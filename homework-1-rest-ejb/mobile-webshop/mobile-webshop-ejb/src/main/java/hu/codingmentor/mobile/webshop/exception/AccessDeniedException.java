@@ -1,8 +1,6 @@
-
 package hu.codingmentor.mobile.webshop.exception;
 
-
-public class AccessDeniedException extends IllegalArgumentException{
+public class AccessDeniedException extends IllegalArgumentException {
 
     public AccessDeniedException() {
         super();
@@ -11,5 +9,5 @@ public class AccessDeniedException extends IllegalArgumentException{
     public AccessDeniedException(String s) {
         super(s);
     }
-    
+
 }

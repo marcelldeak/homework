@@ -1,5 +1,3 @@
-
-
 package hu.codingmentor.mobile.webshop.constraint;
 
 import java.lang.annotation.ElementType;
@@ -13,6 +11,7 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = BirthBeforeRegistrateValidator.class)
 public @interface BirthBeforeRegistrate {
+
     String message() default "{BirthBeforeRegistrate.message}";
 
     Class<?>[] groups() default {};

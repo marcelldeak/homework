@@ -1,8 +1,6 @@
-
 package hu.codingmentor.mobile.webshop.exception;
 
-
-public class InvalidSessionException extends IllegalArgumentException{
+public class InvalidSessionException extends IllegalArgumentException {
 
     public InvalidSessionException() {
         super();
@@ -11,5 +9,5 @@ public class InvalidSessionException extends IllegalArgumentException{
     public InvalidSessionException(String s) {
         super(s);
     }
-    
+
 }

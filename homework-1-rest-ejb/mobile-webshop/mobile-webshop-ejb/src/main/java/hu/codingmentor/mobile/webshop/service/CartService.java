@@ -1,4 +1,3 @@
-
 package hu.codingmentor.mobile.webshop.service;
 
 import hu.codingmentor.mobile.webshop.dto.MobileDTO;
@@ -11,20 +10,21 @@ import javax.ejb.Stateful;
 public class CartService {
 
     private final List<MobileDTO> cartList = new ArrayList();
-    
+
     public CartService() {
+        // Default constructor
     }
 
-    public void addToCart(MobileDTO mobile){
+    public void addToCart(MobileDTO mobile) {
         cartList.add(mobile);
     }
-    
-    public List<MobileDTO> getCart(){
+
+    public List<MobileDTO> getCart() {
         return cartList;
     }
-    
+
     @Remove
-    public void checkout(){
+    public void checkout() {
         cartList.clear();
     }
 }

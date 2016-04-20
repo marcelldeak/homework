@@ -9,17 +9,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import hu.codingmentor.mobile.webshop.annotation.Validable;
+import java.io.Serializable;
 
 @Validable
 @BirthBeforeRegistrate
-public class UserDTO {
-    
+public class UserDTO implements Serializable{
+
     @NotNull
-    @Size(min=3)
+    @Size(min = 3)
     private String username;
-    
+
     @NotNull
-    @Size(min=6)
+    @Size(min = 6)
     @Pattern.List({
         @Pattern(regexp = ".*[a-z]+.*"),
         @Pattern(regexp = ".*[A-Z]+.*"),
@@ -27,20 +28,21 @@ public class UserDTO {
         @Pattern(regexp = ".*[\\=\\+\\<\\>\\,\\.]+.*")
     })
     private String password;
-    
+
     private String firstname;
-    
+
     private String lastname;
-    
+
     private LocalDate dateOfBirth;
-    
+
     private LocalDate registrationDate = LocalDate.now();
-    
+
     private Boolean admin = false;
-    
-    private List<MobileDTO> cart = new ArrayList();
+
+    private transient List<MobileDTO> cart = new ArrayList();
 
     public UserDTO() {
+        //default constructor
     }
 
     public UserDTO(String username, String password) {
@@ -54,8 +56,7 @@ public class UserDTO {
         this.password = password;
         this.dateOfBirth = dateOfBirth;
     }
-    
-    
+
     public String getUsername() {
         return username;
     }
@@ -124,8 +125,8 @@ public class UserDTO {
     public String toString() {
         return "User{" + "usename=" + username + ", password=" + password + ", firstname=" + firstname + ", lastname=" + lastname + ", dateOfBirth=" + dateOfBirth + ", registrationDate=" + registrationDate + ", admin=" + admin + ", cart=" + cart + '}';
     }
-    
-    public void addMobileToCart(MobileDTO mobile){
+
+    public void addMobileToCart(MobileDTO mobile) {
         this.cart.add(mobile);
     }
 
@@ -153,5 +154,5 @@ public class UserDTO {
         }
         return true;
     }
-    
+
 }

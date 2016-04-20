@@ -1,8 +1,6 @@
-
 package hu.codingmentor.mobile.webshop.exception;
 
-
-public class UserAlreadyExsistsException extends IllegalArgumentException{
+public class UserAlreadyExsistsException extends IllegalArgumentException {
 
     public UserAlreadyExsistsException() {
         super();
@@ -11,5 +9,5 @@ public class UserAlreadyExsistsException extends IllegalArgumentException{
     public UserAlreadyExsistsException(String s) {
         super(s);
     }
-    
+
 }

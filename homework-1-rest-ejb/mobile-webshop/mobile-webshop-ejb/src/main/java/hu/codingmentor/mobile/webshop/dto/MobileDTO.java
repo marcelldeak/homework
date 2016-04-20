@@ -1,4 +1,3 @@
-
 package hu.codingmentor.mobile.webshop.dto;
 
 import java.util.Objects;
@@ -10,18 +9,20 @@ import hu.codingmentor.mobile.webshop.annotation.Validable;
 
 @Validable
 public class MobileDTO {
-    
+
     private String id;
-    
-    @NotNull @Size(min=3)
+
+    @NotNull
+    @Size(min = 3)
     private String type;
-    
-    @NotNull @Size(min=3)
+
+    @NotNull
+    @Size(min = 3)
     private String manufacturer;
-    
+
     @Min(1)
     private Integer price;
-    
+
     @Min(0)
     private Integer piece;
 
@@ -36,7 +37,7 @@ public class MobileDTO {
         this.price = price;
         this.piece = piece;
     }
-    
+
     public String getId() {
         return id;
     }
@@ -104,5 +105,14 @@ public class MobileDTO {
             return false;
         }
         return true;
-    } 
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.type);
+        hash = 37 * hash + Objects.hashCode(this.manufacturer);
+        hash = 37 * hash + Objects.hashCode(this.price);
+        return hash;
+    }
 }

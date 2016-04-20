@@ -1,0 +1,270 @@
+// A tesztben csak olyan objektumokat adok meg amiket a validator elfogad.
+
+Teszt scenario
+
+//--------------------------------------------------------------
+// Felhasználók kiírása:
+GET
+http://localhost:8080/mobile-webshop-web/app/users/
+
+// Eredmény:
+200 OK
+Response body:
+[{"admin":true,"cart":[],"password":"admin","registrationDate":"2016-04-20","username":"admin"},{"admin":false,"cart":[],"password":"user","registrationDate":"2016-04-20","username":"user"}]
+
+//--------------------------------------------------------------
+User felhasználó kiírása
+GET
+http://localhost:8080/mobile-webshop-web/app/users/user
+
+// Eredmény:
+200 OK
+Response body:
+{"admin":false,"cart":[],"password":"user","registrationDate":"2016-04-20","username":"user"}
+
+// ------------------------------------------------------------
+// Felhasználó regisztrálása:
+POST
+http://localhost:8080/mobile-webshop-web/app/users/
+Request body:
+{"username" : "marcel",	"password" : "aASDfgh12.,",	"firstname" : "marcel",	"lastname" : "deak",
+	"dateOfBirth" : { "year" : 1992, "month" : 2,"day" : 15	} }
+
+// Eredmény:
+200 OK
+Response body:
+{"admin":false,"cart":[],"firstname":"marcel","lastname":"deak","password":"aASDfgh12.,","registrationDate":"2016-04-20","username":"marcel"}
+
+//-------------------------------------------------------------
+// Felhasználó módosítása:
+PUT
+http://localhost:8080/mobile-webshop-web/app/users/marcel
+Request body:
+{"username" : "marcell",	"password" : "ASDfgh12.,",	"firstname" : "Marcel",	"lastname" : "Deak" }
+
+//Eredmény:
+200 OK
+Response body:
+{"admin":false,"cart":[],"firstname":"Marcel","lastname":"Deak","password":"ASDfgh12.,","registrationDate":"2016-04-20","username":"marcell"}
+
+//-------------------------------------------------------------
+// Felhasználó törlése:
+DELETE
+http://localhost:8080/mobile-webshop-web/app/users/marcel
+
+// Eredmény:
+200 OK
+Response body:
+{"admin":false,"cart":[],"firstname":"Marcel","lastname":"Deak","password":"ASDfgh12.,","registrationDate":"2016-04-20","username":"marcell"}
+
+//-------------------------------------------------------------
+// Bejelentkezés az inicializált admin felhasználóval
+POST
+http://localhost:8080/mobile-webshop-web/app/users/login?username=admin&password=admin
+
+// Eredmény:
+200 OK
+Response body:
+admin logged in successfully.
+
+//-------------------------------------------------------------
+// Eladó telefonok lekérdezése
+GET
+http://localhost:8080/mobile-webshop-web/app/mobiles
+
+// Eredmény:
+200 OK
+Response body:
+[{"id":"a164d27d-c66b-4711-9dc1-85cc733594e7","manufacturer":"Apple","piece":3,"price":200,"type":"iPhone 6"},{"id":"2be45df9-e30d-4e5c-967f-07fc6797a0ae","manufacturer":"Samsung","piece":12,"price":150,"type":"Samsung S6"},{"id":"d493bdf3-23f9-4340-89ad-a1d402adb4e1","manufacturer":"Sony","piece":5,"price":68,"type":"Xperia L"},{"id":"c53f6278-6796-456e-a608-d09e892404d3","manufacturer":"ZTE","piece":0,"price":40,"type":"Skate"}]
+
+//-------------------------------------------------------------
+//Már raktáron lévő telefon hozzáadása
+POST
+http://localhost:8080/mobile-webshop-web/app/mobiles
+Request body:
+{"manufacturer" : "Apple","type" : "iPhone 6","price" : 200, "piece" : 5 }
+
+// Eredmény:
+200 OK
+Response body:
+{"id":"a164d27d-c66b-4711-9dc1-85cc733594e7","manufacturer":"Apple","piece":8,"price":200,"type":"iPhone 6"}
+
+//-------------------------------------------------------------
+// Új Telefon hozzáadása
+POST
+http://localhost:8080/mobile-webshop-web/app/mobiles
+Request body:
+{"manufacturer" : "Apple","type" : "iPhone 5","price" : 150,"piece" : 4}
+
+// Eredmény:
+200 OK
+Response body:
+{"id":"17e339f7-0fbe-4ae0-8089-0c879710ad6e","manufacturer":"Apple","piece":4,"price":150,"type":"iPhone 5"}
+
+//-------------------------------------------------------------
+// Kijelentkezés
+POST
+http://localhost:8080/mobile-webshop-web/app/users/logout
+
+// Eredmény:
+200 OK
+Response body:
+Successfully logout
+
+//-------------------------------------------------------------
+// Bejelentkezés a user felhasználóval
+POST
+http://localhost:8080/mobile-webshop-web/app/users/login?username=user&password=user
+
+// Eredmény:
+200 OK
+Response body:
+user logged in successfully.
+
+//-------------------------------------------------------------
+// Telefon hozzáadása a bevásárlókosárhoz
+POST
+http://localhost:8080/mobile-webshop-web/app/cart
+Request body:
+{	"manufacturer" : "Apple","type" : "iPhone 6","price" : 200,	"piece" : 1}
+
+//Eredmény:
+200 OK
+Response body:
+[{"id":"9fb8ce24-1412-44f6-a49a-4c0b493b2db4","manufacturer":"Apple","piece":1,"price":200,"type":"iPhone 6"}]
+
+//-------------------------------------------------------------
+// User bevásárlókosarának lekérdezése
+GET
+http://localhost:8080/mobile-webshop-web/app/cart
+Request body:
+{"manufacturer" : "Apple","type" : "iPhone 6","price" : 200,"piece" : 1}
+
+//Eredmény:
+200 OK
+Response body:
+[{"id":"9fb8ce24-1412-44f6-a49a-4c0b493b2db4","manufacturer":"Apple","piece":1,"price":200,"type":"iPhone 6"}]
+
+//-------------------------------------------------------------
+// Eladó telefonok lekérdezése
+GET
+http://localhost:8080/mobile-webshop-web/app/mobiles
+
+// Eredmény:
+200 OK
+Response body:
+[{"id":"a164d27d-c66b-4711-9dc1-85cc733594e7","manufacturer":"Apple","piece":7,"price":200,"type":"iPhone 6"}, ...]
+//Csak ez az egy tétel módosult
+
+//-------------------------------------------------------------
+// Kosár kiürítése (vásárlás)
+POST
+http://localhost:8080/mobile-webshop-web/app/cart/checkout
+
+//Eredmény:
+200 OK
+Response body:
+Checkout successfully
+
+//##########################################################################################
+
+Hibás teszt esetek
+
+//Bejelentkezés nem létező felhasználóval
+POST
+http://localhost:8080/mobile-webshop-web/app/users/login?username=marcel&password=user
+
+//Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"Wrong username or password","exceptionType":"UserDontExsistException"}
+
+//--------------------------------------------------------------
+Nem regisztrált felhaználó módosítása
+PUT
+http://localhost:8080/mobile-webshop-web/app/users/marcel
+Request body:
+{"username" : "marcell",	"password" : "ASDfgh12.,",	"firstname" : "Marcel",	"lastname" : "Deak" }
+
+// Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"User don't exists! Registrate first!","exceptionType":"UserDontExsistException"}
+
+//--------------------------------------------------------------
+Nem regisztrált felhaználó törlése
+DELETE
+http://localhost:8080/mobile-webshop-web/app/users/marcel
+
+// Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"User don't exists! Registrate first!","exceptionType":"UserDontExsistException"}
+
+//--------------------------------------------------------------
+Nem regisztrált felhaználó lekérdezése
+GET
+http://localhost:8080/mobile-webshop-web/app/users/marcel
+
+// Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"User don't exists! Registrate first!","exceptionType":"UserDontExsistException"}
+
+//--------------------------------------------------------------
+//Mobil hozzáadása nem admin felhasználóval
+POST
+http://localhost:8080/mobile-webshop-web/app/mobiles
+Request body:
+{"manufacturer" : "Apple","type" : "iPhone 6","price" : 200,"piece" : 1}
+
+//Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"Admin user can add mobile to inventory only!","exceptionType":"hu.codingmentor.mobile.webshop.exception.AccessDeniedException"}
+
+//---------------------------------------------------------------
+//Mobil hozzáadása bejelentkezés nélkül
+POST
+http://localhost:8080/mobile-webshop-web/app/mobiles
+Request body:
+{"manufacturer" : "Apple","type" : "iPhone 6","price" : 200,"piece" : 1}
+
+//Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"Time expired! Login first.","exceptionType":"InvalidSessionException"}
+
+//---------------------------------------------------------------
+Kosár lekérdezése bejelentkezés nélkül
+GET
+http://localhost:8080/mobile-webshop-web/app/mobiles
+
+// Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"Time expired! Log in again!","exceptionType":"InvalidSessionException"}
+
+//---------------------------------------------------------------
+//Sikeres bejelentkezés után kosárhoz adás olyan telefont amiből 0 db van
+POST
+http://localhost:8080/mobile-webshop-web/app/cart
+Request body:
+{"manufacturer":"ZTE","piece":1,"price":40,"type":"Skate"}
+
+// Eredmény
+500 Internal Server Error
+Response body:
+{"errorMessage":"Don't have enough of ZTE Skate","exceptionType":"ItemSoldOutException"}
+
+//---------------------------------------------------------------
+//Sikeres bejelentkezés után kosárhoz adás olyan telefont amiből 0 db van
+POST
+http://localhost:8080/mobile-webshop-web/app/cart
+Request body:
+{"manufacturer":"Huawei","piece":1,"price":20,"type":"Skate"}
+
+// Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"Don't have Huawei Skate","exceptionType":"ItemDontExistsException"}

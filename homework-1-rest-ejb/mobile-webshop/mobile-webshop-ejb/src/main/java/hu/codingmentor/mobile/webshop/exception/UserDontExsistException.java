@@ -1,8 +1,6 @@
-
 package hu.codingmentor.mobile.webshop.exception;
 
-
-public class UserDontExsistException extends IllegalArgumentException{
+public class UserDontExsistException extends IllegalArgumentException {
 
     public UserDontExsistException() {
         super();
@@ -11,7 +9,5 @@ public class UserDontExsistException extends IllegalArgumentException{
     public UserDontExsistException(String s) {
         super(s);
     }
-    
-    
-    
+
 }
