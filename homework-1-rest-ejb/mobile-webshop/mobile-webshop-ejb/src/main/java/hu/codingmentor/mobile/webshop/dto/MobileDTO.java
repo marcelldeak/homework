@@ -6,11 +6,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import hu.codingmentor.mobile.webshop.annotation.Validable;
+import javax.validation.constraints.Pattern;
 
 @Validable
 public class MobileDTO {
 
-    private String id;
+    @Pattern(regexp = "[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}")
+    private String id = UUID.randomUUID().toString();
 
     @NotNull
     @Size(min = 3)
@@ -27,11 +29,10 @@ public class MobileDTO {
     private Integer piece;
 
     public MobileDTO() {
-        this.id = UUID.randomUUID().toString();
+        // default constructor
     }
 
     public MobileDTO(String type, String manufacturer, Integer price, Integer piece) {
-        this.id = UUID.randomUUID().toString();
         this.type = type;
         this.manufacturer = manufacturer;
         this.price = price;
@@ -115,4 +116,5 @@ public class MobileDTO {
         hash = 37 * hash + Objects.hashCode(this.price);
         return hash;
     }
+    
 }

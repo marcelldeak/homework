@@ -32,7 +32,7 @@ public class UserDTO implements Serializable{
     private String firstname;
 
     private String lastname;
-
+    
     private LocalDate dateOfBirth;
 
     private LocalDate registrationDate = LocalDate.now();

@@ -3,13 +3,13 @@ package hu.codingmentor.mobile.webshop.exception;
 import javax.ejb.ApplicationException;
 
 @ApplicationException
-public class UserDontExsistException extends IllegalArgumentException {
+public class ItemDoesntExistException extends IllegalArgumentException {
 
-    public UserDontExsistException() {
+    public ItemDoesntExistException() {
         super();
     }
 
-    public UserDontExsistException(String s) {
+    public ItemDoesntExistException(String s) {
         super(s);
     }
 

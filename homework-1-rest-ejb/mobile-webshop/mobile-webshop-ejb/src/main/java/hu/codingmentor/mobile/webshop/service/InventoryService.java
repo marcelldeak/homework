@@ -1,14 +1,15 @@
 package hu.codingmentor.mobile.webshop.service;
 
 import hu.codingmentor.mobile.webshop.dto.MobileDTO;
-import hu.codingmentor.mobile.webshop.exception.ItemDontExistsException;
+import hu.codingmentor.mobile.webshop.exception.ItemDoesntExistException;
 import hu.codingmentor.mobile.webshop.exception.ItemSoldOutException;
+import hu.codingmentor.mobile.webshop.interceptor.Validate;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.LocalBean;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
@@ -16,11 +17,10 @@ import javax.ejb.Startup;
 
 @Singleton
 @Startup
-@LocalBean
-@ConcurrencyManagement(ConcurrencyManagementType.BEAN)
-public class InventoryService {
+@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
+public class InventoryService implements Serializable{
 
-    private List<MobileDTO> inventory = new ArrayList();
+    private final transient List<MobileDTO> inventory = new ArrayList<>();
 
     public InventoryService() {
         // Default constructor
@@ -35,11 +35,10 @@ public class InventoryService {
     }
 
     @Lock(LockType.WRITE)
+    @Validate
     public MobileDTO addMobile(MobileDTO mobile) {
         for (MobileDTO m : inventory) {
-            if (m.getManufacturer().equals(mobile.getManufacturer())
-                    && m.getPrice().equals(mobile.getPrice())
-                    && m.getType().equals(mobile.getType())) {
+            if (m.equals(mobile)) {
                 m.setPiece(m.getPiece() + mobile.getPiece());
                 return m;
             }
@@ -54,22 +53,21 @@ public class InventoryService {
     }
 
     @Lock(LockType.WRITE)
+    @Validate
     public void removeMobile(MobileDTO mobile) {
         for (MobileDTO m : inventory) {
-            if (m.getManufacturer().equals(mobile.getManufacturer())
-                    && m.getPrice().equals(mobile.getPrice())
-                    && m.getType().equals(mobile.getType())
-                    && m.getPiece() >= mobile.getPiece()) {
+            if (m.equals(mobile)) {
                 if (m.getPiece() < mobile.getPiece()) {
-                throw new ItemSoldOutException("Don't have enough of " + mobile.getManufacturer()
+                    throw new ItemSoldOutException("Don't have enough of " + mobile.getManufacturer()
                         + " " + mobile.getType());
-                }else{
-                    m.setPiece(m.getPiece() - mobile.getPiece());
-                    return;
                 }
+                m.setPiece(m.getPiece() - mobile.getPiece());
+                return;
             }
         }
-        throw new ItemDontExistsException("Don't have " + mobile.getManufacturer()
+        throw new ItemDoesntExistException("Don't have " + mobile.getManufacturer()
             + " " + mobile.getType());
     }
+    
+    
 }

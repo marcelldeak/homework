@@ -4,7 +4,6 @@ import hu.codingmentor.mobile.webshop.dto.MobileDTO;
 import hu.codingmentor.mobile.webshop.dto.UserDTO;
 import hu.codingmentor.mobile.webshop.exception.AccessDeniedException;
 import hu.codingmentor.mobile.webshop.exception.InvalidSessionException;
-import hu.codingmentor.mobile.webshop.interceptor.Validate;
 import hu.codingmentor.mobile.webshop.service.InventoryService;
 import java.util.List;
 import javax.inject.Inject;
@@ -22,16 +21,17 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class InventoryRESTService{
 
+    private static final String USER = "user";
+    
     @Inject
     private InventoryService inventoryService;
 
     @POST
     @Path("/")
-    @Validate
     @Consumes(MediaType.APPLICATION_JSON)
     public MobileDTO addMobile(@Context HttpServletRequest request, MobileDTO mobile) {
         HttpSession session = request.getSession();
-        Object userAttribute = session.getAttribute("user");
+        Object userAttribute = session.getAttribute(USER);
         if (null != userAttribute && userAttribute instanceof UserDTO) {
             UserDTO user = (UserDTO) userAttribute;
             if (user.getAdmin()) {

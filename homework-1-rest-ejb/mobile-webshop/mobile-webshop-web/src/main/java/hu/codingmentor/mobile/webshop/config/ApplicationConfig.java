@@ -27,6 +27,7 @@ public class ApplicationConfig extends Application {
         resources.add(hu.codingmentor.mobile.webshop.exceptionmapper.ItemSoldOutExceptionMapper.class);
         resources.add(hu.codingmentor.mobile.webshop.exceptionmapper.UserAlreadyExsistsExceptionMapper.class);
         resources.add(hu.codingmentor.mobile.webshop.exceptionmapper.UserDontExsistExceptionMapper.class);
+        resources.add(hu.codingmentor.mobile.webshop.exceptionmapper.ValidationExceptionMapper.class);
         resources.add(hu.codingmentor.mobile.webshop.rest.CartRESTService.class);
         resources.add(hu.codingmentor.mobile.webshop.rest.InventoryRESTService.class);
         resources.add(hu.codingmentor.mobile.webshop.rest.UserRESTService.class);

@@ -1,8 +1,7 @@
 package hu.codingmentor.mobile.webshop.exceptionmapper;
 
 import hu.codingmentor.mobile.webshop.dto.ExceptionDTO;
-import hu.codingmentor.mobile.webshop.exception.*;
-import hu.codingmentor.mobile.webshop.qualifier.LoggerQualifier;
+import hu.codingmentor.mobile.webshop.exception.InvalidSessionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
@@ -15,12 +14,11 @@ import javax.ws.rs.ext.Provider;
 public class InvalidSessionExceptionMapper implements ExceptionMapper<InvalidSessionException> {
 
     @Inject
-    @LoggerQualifier
     private Logger logger;
 
     @Override
     public Response toResponse(InvalidSessionException exception) {
-        logger.log(Level.WARNING, "Invalid session", exception);
+        logger.log(Level.WARNING, "Invalid session");
         return Response.serverError().entity(new ExceptionDTO(exception.getClass().getSimpleName(), exception.getMessage())).type(MediaType.APPLICATION_JSON).build();
     }
 }

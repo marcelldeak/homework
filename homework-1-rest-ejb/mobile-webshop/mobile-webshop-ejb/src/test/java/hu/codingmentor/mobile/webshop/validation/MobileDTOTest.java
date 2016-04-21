@@ -35,6 +35,14 @@ public class MobileDTOTest {
     }
 
     @Test
+    public void idNegativeTest(){
+        MobileDTO mobile = new MobileDTO("Xperia L", "Sony", 40, 8);
+        mobile.setId("invalid id");
+        Set<ConstraintViolation<MobileDTO>> violations = validator.validate(mobile);
+        Assert.assertEquals("invalid id", violations.iterator().next().getInvalidValue());
+    }
+    
+    @Test
     public void typeNegativeTest() {
         MobileDTO mobile = new MobileDTO("L", "Sony", 40, 8);
         Set<ConstraintViolation<MobileDTO>> violations = validator.validate(mobile);

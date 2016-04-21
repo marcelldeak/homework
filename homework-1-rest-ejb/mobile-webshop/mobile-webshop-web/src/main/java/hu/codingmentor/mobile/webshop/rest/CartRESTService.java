@@ -25,14 +25,16 @@ import javax.ws.rs.core.MediaType;
 @SessionScoped
 public class CartRESTService implements Serializable{
 
+    private static final String USER = "user"; 
+    
     @Inject
-    private transient CartService cartService;
+    private CartService cartService;
 
     @Inject
-    private transient InventoryService inventoryService;
+    private InventoryService inventoryService;
 
     @Inject
-    private transient UserManagementService userService;
+    private UserManagementService userService;
 
     @POST
     @Path("/")
@@ -40,7 +42,7 @@ public class CartRESTService implements Serializable{
     @Produces(MediaType.APPLICATION_JSON)
     public List<MobileDTO> addToCart(@Context HttpServletRequest request, MobileDTO mobile) {
         HttpSession session = request.getSession();
-        Object userAttribute = session.getAttribute("user");
+        Object userAttribute = session.getAttribute(USER);
         if (null != userAttribute && userAttribute instanceof UserDTO) {
             UserDTO user = (UserDTO) userAttribute;
             if (userService.getUserByUsername(user.getUsername()) != null) {
@@ -48,7 +50,7 @@ public class CartRESTService implements Serializable{
                 cartService.addToCart(mobile);
                 return cartService.getCart();
             }else
-                throw new UserDontExsistException("User don't exist! Registrate first!");
+                throw new UserDontExsistException("User doesn't exist! Registrate first!");
         }
         throw new InvalidSessionException("Time expired! Log in again!");
     }
@@ -58,13 +60,13 @@ public class CartRESTService implements Serializable{
     @Produces(MediaType.APPLICATION_JSON)
     public List<MobileDTO> getCartList(@Context HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Object userAttribute = session.getAttribute("user");
+        Object userAttribute = session.getAttribute(USER);
         if (null != userAttribute && userAttribute instanceof UserDTO) {
             UserDTO user = (UserDTO) userAttribute;
             if (userService.getUserByUsername(user.getUsername()) != null)
                 return cartService.getCart();
             else
-                throw new UserDontExsistException("User don't exist! Registrate first!");
+                throw new UserDontExsistException("User doesn't exist! Registrate first!");
         }
         throw new InvalidSessionException("Time expired! Log in again!");
         

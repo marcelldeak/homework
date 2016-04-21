@@ -2,7 +2,6 @@ package hu.codingmentor.mobile.webshop.rest;
 
 import hu.codingmentor.mobile.webshop.dto.UserDTO;
 import hu.codingmentor.mobile.webshop.exception.UserDontExsistException;
-import hu.codingmentor.mobile.webshop.interceptor.Validate;
 import hu.codingmentor.mobile.webshop.service.UserManagementService;
 import java.util.List;
 import javax.inject.Inject;
@@ -23,14 +22,15 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
-public class UserRESTService {
+public class UserRESTService{
 
+    private static final String USER = "user";
+    
     @Inject
     private UserManagementService userService;
 
     @POST
     @Path("/")
-    @Validate
     @Consumes(MediaType.APPLICATION_JSON)
     public UserDTO addUser(UserDTO user) {
         return userService.addUser(user);
@@ -44,7 +44,6 @@ public class UserRESTService {
 
     @PUT
     @Path("/{username}")
-    @Validate
     @Consumes(MediaType.APPLICATION_JSON)
     public UserDTO editUser(@PathParam("username") String username, UserDTO user) {
         return userService.editUser(username, user);
@@ -73,7 +72,7 @@ public class UserRESTService {
             if (user.getUsername().equals(username)
                     && user.getPassword().equals(password)) {
                 session.setMaxInactiveInterval(1200);
-                session.setAttribute("user", user);
+                session.setAttribute(USER, user);
                 return user.getUsername() + " logged in successfully.";
             }
         }

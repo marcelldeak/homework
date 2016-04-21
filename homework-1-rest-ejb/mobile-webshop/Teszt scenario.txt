@@ -268,3 +268,59 @@ Request body:
 500 Internal Server Error
 Response body:
 {"errorMessage":"Don't have Huawei Skate","exceptionType":"ItemDontExistsException"}
+
+//################################################################
+
+Invalid input
+
+// Felhasználónevet és jelszót sértő felhasználó hozzáadása
+POST
+http://localhost:8080/mobile-webshop-web/app/users
+Request body:
+{"username" : "a",	"password" : "nas" }
+
+// Eredmény:
+500 Internal Server Error
+Response body:
+{
+    "errorMessage": "Validation error: a méretnek 3 és 2147483647 között kell lennie, invalid value: a Validation error: a méretnek 6 és 2147483647 között kell lennie, invalid value: nas Validation error: meg kell felelnie a ".*[0-9]+.*" reguláris kifejezésnek, invalid value: nas Validation error: meg kell felelnie a ".*[\=\+\<\>\,\.]+.*" reguláris kifejezésnek, invalid value: nas Validation error: meg kell felelnie a ".*[A-Z]+.*" reguláris kifejezésnek, invalid value: nas ",
+    "exceptionType": "ValidationException"
+}
+
+//---------------------------------------------------------------
+// null felhasználónevű, null jelszavú felhasználó hozzáadása
+POST
+http://localhost:8080/mobile-webshop-web/app/users
+Request body:
+{"username" : null,	"password" : null }
+
+// Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"Validation error: nem lehet null-érték, invalid value: null Validation error: nem lehet null-érték, invalid value: null ","exceptionType":"ValidationException"}
+
+//---------------------------------------------------------------
+// Id-t, tipust, gyártót, 0 értékű, -1 db telefon hozzáadása
+POST
+http://localhost:8080/mobile-webshop-web/app/mobiles
+http://localhost:8080/mobile-webshop-web/app/cart
+Request body:
+{"id" : "invalid id", "type" : "L", "manufacturer" : "S", "price" : 0, "piece" : -1}
+
+// Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"Validation error: a méretnek 3 és 2147483647 között kell lennie, invalid value: L Validation error: meg kell felelnie a \"[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}\" reguláris kifejezésnek, invalid value: invalid id Validation error: nagyobb vagy egyenlő kell legyen mint 0, invalid value: -1 Validation error: a méretnek 3 és 2147483647 között kell lennie, invalid value: S Validation error: nagyobb vagy egyenlő kell legyen mint 1, invalid value: 0 ","exceptionType":"ValidationException"}
+
+//---------------------------------------------------------------
+// null típusú, null gyártójú telefon hozzádasa
+POST
+http://localhost:8080/mobile-webshop-web/app/mobiles
+http://localhost:8080/mobile-webshop-web/app/cart
+Request body:
+{"type" : null, "manufacturer" : null}
+
+// Eredmény:
+500 Internal Server Error
+Response body:
+{"errorMessage":"Validation error: nem lehet null-érték, invalid value: null Validation error: nem lehet null-érték, invalid value: null ","exceptionType":"ValidationException"}
