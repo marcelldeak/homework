@@ -33,9 +33,10 @@ public class AsyncService{
             } catch (InterruptedException ex) {
                 Logger.getLogger(AsyncService.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(i%2 == 0)
+            if(i%2 == 0){
                 logger.log(Level.INFO,"Async future method on " + 
                         Thread.currentThread().getName() + " is working.");
+            }
             ++i;
         }
         logger.log(Level.INFO, "Async future method on " + 
@@ -54,9 +55,10 @@ public class AsyncService{
             } catch (InterruptedException ex) {
                 Logger.getLogger(AsyncService.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(i%2 == 0)
+            if(i%2 == 0){
                 logger.log(Level.INFO,"Method "+ methodId + " on " + 
                         Thread.currentThread().getName() + " is working.");
+            }
         }
         logger.log(Level.INFO,"Method " + methodId + " finished.");
     }
