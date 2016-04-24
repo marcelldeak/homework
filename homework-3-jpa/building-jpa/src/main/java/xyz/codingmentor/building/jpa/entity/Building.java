@@ -1,5 +1,6 @@
-package hu.codingmentor.building.jpa;
+package xyz.codingmentor.building.jpa.entity;
 
+import xyz.codingmentor.building.jpa.dto.Address;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;

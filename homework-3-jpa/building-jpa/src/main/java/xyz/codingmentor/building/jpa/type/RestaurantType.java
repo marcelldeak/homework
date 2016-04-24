@@ -1,5 +1,5 @@
 
-package hu.codingmentor.building.jpa;
+package xyz.codingmentor.building.jpa.type;
 
 
 public enum RestaurantType {

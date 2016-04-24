@@ -1,4 +1,4 @@
-package hu.codingmentor.building.jpa;
+package xyz.codingmentor.building.jpa.dto;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;

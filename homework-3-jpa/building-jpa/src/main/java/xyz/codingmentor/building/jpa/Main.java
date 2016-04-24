@@ -1,7 +1,14 @@
 
 
-package hu.codingmentor.building.jpa;
+package xyz.codingmentor.building.jpa;
 
+import xyz.codingmentor.building.jpa.dto.Address;
+import xyz.codingmentor.building.jpa.type.RestaurantType;
+import xyz.codingmentor.building.jpa.entity.Owner;
+import xyz.codingmentor.building.jpa.entity.Restaurant;
+import xyz.codingmentor.building.jpa.entity.Office;
+import xyz.codingmentor.building.jpa.entity.Building;
+import xyz.codingmentor.building.jpa.entity.House;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
