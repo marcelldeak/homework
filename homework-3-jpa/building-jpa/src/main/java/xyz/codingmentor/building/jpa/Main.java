@@ -91,11 +91,29 @@ public class Main {
         List<Owner> ownerQueryResult;
         
         trs.begin();
-        em.persist(owner1); em.persist(owner2); em.persist(owner3); em.persist(owner4);
-        em.persist(home1); em.persist(home2); em.persist(home3); em.persist(home4);
-        em.persist(house1); em.persist(house2); em.persist(house3);
-        em.persist(rest1); em.persist(rest2); em.persist(rest3);
-        em.persist(office1); em.persist(office2); em.persist(office3);
+        
+        em.persist(owner1);
+        em.persist(owner2);
+        em.persist(owner3);
+        em.persist(owner4);
+        
+        em.persist(home1);
+        em.persist(home2);
+        em.persist(home3);
+        em.persist(home4);
+        
+        em.persist(house1);
+        em.persist(house2);
+        em.persist(house3);
+        
+        em.persist(rest1);
+        em.persist(rest2);
+        em.persist(rest3);
+        
+        em.persist(office1);
+        em.persist(office2);
+        em.persist(office3);
+        
         trs.commit();
         
         trs.begin();
