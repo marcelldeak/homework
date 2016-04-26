@@ -1,4 +1,4 @@
-package hu.codingmentor.dto;
+package hu.codingmentor.working.simulation.dto;
 
 import java.io.Serializable;
 

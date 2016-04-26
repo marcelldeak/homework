@@ -1,8 +1,7 @@
 package hu.codingmentor.working.simulation.bean;
 
-import hu.codingmentor.dto.Job;
-import hu.codingmentor.dto.Statistic;
-import java.io.Serializable;
+import hu.codingmentor.working.simulation.dto.Job;
+import hu.codingmentor.working.simulation.dto.Statistic;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -14,7 +13,7 @@ import javax.jms.JMSContext;
 import javax.jms.JMSProducer;
 
 @Stateless
-public class JobScheduler implements Serializable {
+public class JobScheduler {
     
     @Inject
     private Logger logger;
@@ -22,10 +21,10 @@ public class JobScheduler implements Serializable {
     @Inject
     private JMSContext jmsContext;
 
-    @Resource(lookup = "dzsobKju")
+    @Resource(lookup = "java:/dzsobKju")
     private Destination jobQueue;
 
-    @Resource(lookup = "dzsobTopik")
+    @Resource(lookup = "java:/dzsobTopik")
     private Destination statisticsTopic;
 
     public JobScheduler() {

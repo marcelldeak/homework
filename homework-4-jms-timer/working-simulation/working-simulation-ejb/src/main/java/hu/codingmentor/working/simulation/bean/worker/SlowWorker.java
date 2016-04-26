@@ -1,10 +1,11 @@
 package hu.codingmentor.working.simulation.bean.worker;
 
-import hu.codingmentor.dto.Job;
-import hu.codingmentor.dto.Statistic;
+import hu.codingmentor.working.simulation.dto.Job;
+import hu.codingmentor.working.simulation.dto.Statistic;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
+import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.inject.Inject;
 import javax.jms.Destination;
@@ -15,7 +16,11 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 
 
-@MessageDriven(mappedName = "dzsobKju")
+@MessageDriven(mappedName = "djava:/zsobKju", activationConfig = {
+        @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "1"),
+        @ActivationConfigProperty(propertyName="destination", propertyValue="java:/dzsobKju")
+    }
+)
 public class SlowWorker implements MessageListener {
 
     @Inject
@@ -24,7 +29,7 @@ public class SlowWorker implements MessageListener {
     @Inject
     private JMSContext jmsContext;
     
-    @Resource(lookup = "dzsobTopik")
+    @Resource(lookup = "java:/dzsobTopik")
     private Destination statisticsTopic;
 
     public SlowWorker() {
@@ -44,7 +49,7 @@ public class SlowWorker implements MessageListener {
              jobStatistic = jobStatistic.jobId(job.getId())
                                         .timeStamp(workDuration);
         } catch (JMSException | InterruptedException ex) {
-            logger.log(Level.SEVERE, ex.toString());
+            logger.log(Level.SEVERE, null, ex);
         }
         producer.send(statisticsTopic, jmsContext.createObjectMessage(jobStatistic));
         logger.info("SlowWorker do " + job + " and send " + jobStatistic);

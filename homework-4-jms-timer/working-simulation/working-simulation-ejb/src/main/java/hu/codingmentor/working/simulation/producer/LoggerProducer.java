@@ -1,4 +1,4 @@
-package hu.codingmentor.producer;
+package hu.codingmentor.working.simulation.producer;
 
 import java.util.logging.Logger;
 import javax.enterprise.inject.Produces;

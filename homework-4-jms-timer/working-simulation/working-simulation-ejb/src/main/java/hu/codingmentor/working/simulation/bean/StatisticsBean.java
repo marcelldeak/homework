@@ -1,17 +1,20 @@
 package hu.codingmentor.working.simulation.bean;
 
-import hu.codingmentor.dto.Statistic;
+import hu.codingmentor.working.simulation.dto.Statistic;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
-@MessageDriven(mappedName = "dzsobTopik")
+@MessageDriven(mappedName = "dzsobTopik", activationConfig = 
+        @ActivationConfigProperty(propertyName="destination", propertyValue="java:/dzsobTopik")
+)
 public class StatisticsBean implements MessageListener {
     
     private static final Map<Long, Boolean> statistics = new HashMap<>();
@@ -27,7 +30,7 @@ public class StatisticsBean implements MessageListener {
         try {
             statistic = message.getBody(Statistic.class);
         } catch (JMSException ex) {
-            logger.log(Level.SEVERE, ex.toString());
+            logger.log(Level.SEVERE, null, ex);
         }
         if (statistics.containsKey(statistic.getJobId())) {
             if (statistic.getTimeStamp() <= 5) {
@@ -39,7 +42,7 @@ public class StatisticsBean implements MessageListener {
             statTmp.put(statistic.getJobId(), statistic.getTimeStamp());
         }
 
-        logger.info("StatisticBean get " + statistic + " map:/n" + statistics);
+        logger.info("StatisticBean get " + statistic + " map:\n" + statistics);
     }
 
     public static Map<Long, Boolean> getStatistics() {
