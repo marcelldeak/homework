@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import xyz.codingmentor.theme.park.dto.GuestBookDTO;
 import xyz.codingmentor.theme.park.dto.MachineDTO;
 import xyz.codingmentor.theme.park.dto.ThemeParkDTO;
 import xyz.codingmentor.theme.park.service.MachineService;
@@ -91,5 +92,11 @@ public class ThemeParkREST {
     @Path("/{id}/restingvisitorscount")
     public Integer getNumberOfRestingVisitors(@PathParam("id") String id) {
         return visitorService.getNumberOfRestingVisitors(id);
+    }
+    
+    @GET
+    @Path("/{id}/guestbooks")
+    public List<GuestBookDTO> getGuestBooksOfThemePark(@PathParam("id") String id){
+        return themeParkService.getGuestBooksOfThemePark(id);
     }
 }

@@ -170,3 +170,31 @@ http://localhost:8080/theme-park-web/app/guestbooks/1
 Vendégkönyv törlése
 DELETE
 http://localhost:8080/theme-park-web/app/guestbooks/1
+
+//---------------------------------------------------------------
+
+Lekérdezések
+
+adott vidámparkban milyen gépek találhatóak  
+GET
+http://localhost:8080/theme-park-web/app/themeparks/1/ownedmachines
+
+//---------------------------------------------------------------
+adott gépeket éppen kik használják  
+GET
+http://localhost:8080/theme-park-web/app/visitors/riding?machine=1
+
+//---------------------------------------------------------------
+hány olyan látogató van a vidámparkban, aki nem ül gépen 
+GET
+http://localhost:8080/theme-park-web/app/themeparks/1/restingvisitorscount
+
+//---------------------------------------------------------------
+egy adott vidámparkban lévő látogatóhoz tartozó vendégkönyv bejegyzések az adott vidámparkról  
+GET
+http://localhost:8080/theme-park-web/app/themeparks/1/guestbooks
+
+//---------------------------------------------------------------
+egy adott ország vidámparkjai
+GET
+http://localhost:8080/theme-park-web/app/themeparks/Hungary
