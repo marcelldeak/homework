@@ -44,13 +44,12 @@ public class Visitor implements Serializable {
             joinColumns = @JoinColumn(name = "theme_park_fk"),
             inverseJoinColumns = @JoinColumn(name = "visitor_fk"))
     private ThemePark actualPark;
-    
+
     @ManyToOne
     @JoinTable(name = "machine_visitor",
             joinColumns = @JoinColumn(name = "machine_fk"),
             inverseJoinColumns = @JoinColumn(name = "visitor_fk"))
     private Machine machine;
-
 
     public Visitor() {
         // default constructor
@@ -64,7 +63,7 @@ public class Visitor implements Serializable {
         this.actualPark = actualPark;
         this.machine = machine;
     }
-    
+
     public Visitor(VisitorDTO visitor) {
         this.id = visitor.getId();
         this.state = visitor.getState();
@@ -72,16 +71,7 @@ public class Visitor implements Serializable {
         this.timeOfEnter = visitor.getTimeOfEnter();
         this.age = visitor.getAge();
         this.activity = visitor.getActivity();
-        if(visitor.getActualPark() == null){
-            this.actualPark = null;
-        }else{
-            this.actualPark = new ThemePark(visitor.getActualPark());
-        }
-        if(visitor.getMachine() == null){
-            this.machine = null;
-        }else{
-            this.machine = new Machine(visitor.getMachine());
-        }
+
     }
 
     public Long getId() {

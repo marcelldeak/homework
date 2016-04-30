@@ -34,8 +34,8 @@ public class ValidationInterceptor {
         }
         return ic.proceed();
     }
-    
-    private static Optional<String> generateErrorMessage(Set<ConstraintViolation<Object>> violations){
+
+    private static Optional<String> generateErrorMessage(Set<ConstraintViolation<Object>> violations) {
         StringBuilder stringBuilder = new StringBuilder();
         Optional<String> errMessage = Optional.empty();
         for (ConstraintViolation<Object> c : violations) {

@@ -1,17 +1,12 @@
-
 package xyz.codingmentor.theme.park.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import xyz.codingmentor.theme.park.entity.Machine;
-import xyz.codingmentor.theme.park.entity.Visitor;
-
 
 public class MachineDTO {
-    
+
     private Long id;
 
     @NotNull
@@ -36,13 +31,11 @@ public class MachineDTO {
     @Min(1)
     private Integer requiredAge;
 
-    private List<VisitorDTO> visitorsRiding = new ArrayList<>();
-
     public MachineDTO() {
         // default constructor
     }
 
-    public MachineDTO(Long id, String name, Integer size, Integer cost, Integer ticketPrice, Integer numberOfSeats, MachineType type, Integer requiredAge) {
+    public MachineDTO(Long id, String name, Integer size, Integer cost, Integer ticketPrice, Integer numberOfSeats, MachineType type, Integer requiredAge, ThemeParkDTO ownerThemePark) {
         this.id = id;
         this.name = name;
         this.size = size;
@@ -52,8 +45,8 @@ public class MachineDTO {
         this.type = type;
         this.requiredAge = requiredAge;
     }
-    
-    public MachineDTO(Machine machine){
+
+    public MachineDTO(Machine machine) {
         this.id = machine.getId();
         this.name = machine.getName();
         this.size = machine.getSize();
@@ -128,14 +121,6 @@ public class MachineDTO {
         this.requiredAge = requiredAge;
     }
 
-    public List<VisitorDTO> getVisitorsRiding() {
-        return visitorsRiding;
-    }
-
-    public void setVisitorsRiding(List<VisitorDTO> visitorsRiding) {
-        this.visitorsRiding = visitorsRiding;
-    }
-    
     @Override
     public String toString() {
         return "MachineDTO{" + "id=" + id + ", name=" + name + ", size=" + size + ", cost=" + cost + ", ticketPrice=" + ticketPrice + ", numberOfSeats=" + numberOfSeats + ", type=" + type + ", requiredAge=" + requiredAge + '}';

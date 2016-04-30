@@ -1,13 +1,11 @@
-
 package xyz.codingmentor.theme.park.dto;
 
 import java.util.Date;
 import javax.validation.constraints.Min;
 import xyz.codingmentor.theme.park.entity.Visitor;
 
-
 public class VisitorDTO {
-    
+
     private Long id;
 
     private State state;
@@ -22,10 +20,6 @@ public class VisitorDTO {
 
     private Boolean activity;
 
-    private ThemeParkDTO actualPark;
-
-    private MachineDTO machine;
-
     public VisitorDTO() {
         // default constructor
     }
@@ -37,8 +31,6 @@ public class VisitorDTO {
         this.timeOfEnter = timeOfEnter;
         this.age = age;
         this.activity = activity;
-        this.actualPark = actualPark;
-        this.machine = machine;
     }
 
     public VisitorDTO(Visitor visitor) {
@@ -48,16 +40,6 @@ public class VisitorDTO {
         this.timeOfEnter = visitor.getTimeOfEnter();
         this.age = visitor.getAge();
         this.activity = visitor.getActivity();
-        if(visitor.getActualPark() == null){
-            this.actualPark = null;
-        }else{
-            this.actualPark = new ThemeParkDTO(visitor.getActualPark());
-        }
-        if(visitor.getMachine() == null){
-            this.machine = null;
-        }else{
-            this.machine = new MachineDTO(visitor.getMachine());
-        }
     }
 
     public Long getId() {
@@ -108,24 +90,8 @@ public class VisitorDTO {
         this.activity = activity;
     }
 
-    public ThemeParkDTO getActualPark() {
-        return actualPark;
-    }
-
-    public void setActualPark(ThemeParkDTO actualPark) {
-        this.actualPark = actualPark;
-    }
-
-    public MachineDTO getMachine() {
-        return machine;
-    }
-
-    public void setMachine(MachineDTO machine) {
-        this.machine = machine;
-    }
-    
     @Override
     public String toString() {
-        return "VisitorDTO{" + "id=" + id + ", state=" + state + ", pocketMoney=" + pocketMoney + ", timeOfEnter=" + timeOfEnter + ", age=" + age + ", activity=" + activity + ", actualPark=" + actualPark + '}';
+        return "VisitorDTO{" + "id=" + id + ", state=" + state + ", pocketMoney=" + pocketMoney + ", timeOfEnter=" + timeOfEnter + ", age=" + age + ", activity=" + activity + '}';
     }
 }

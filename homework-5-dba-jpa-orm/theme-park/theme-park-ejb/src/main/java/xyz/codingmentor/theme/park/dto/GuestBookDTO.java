@@ -1,13 +1,11 @@
-
 package xyz.codingmentor.theme.park.dto;
 
 import java.util.Date;
 import javax.validation.constraints.NotNull;
 import xyz.codingmentor.theme.park.entity.GuestBook;
 
-
 public class GuestBookDTO {
-    
+
     private Long id;
 
     @NotNull
@@ -33,8 +31,8 @@ public class GuestBookDTO {
         this.dateOfEntry = dateOfEntry;
         this.entryText = entryText;
     }
-    
-    public GuestBookDTO(GuestBook guestbook){
+
+    public GuestBookDTO(GuestBook guestbook) {
         this.id = guestbook.getId();
         this.themePark = new ThemeParkDTO(guestbook.getThemePark());
         this.visitor = new VisitorDTO(guestbook.getVisitor());
@@ -81,7 +79,7 @@ public class GuestBookDTO {
     public void setEntryText(String entryText) {
         this.entryText = entryText;
     }
-    
+
     @Override
     public String toString() {
         return "GuestBookDTO{" + "id=" + id + ", themePark=" + themePark + ", visitor=" + visitor + ", dateOfEntry=" + dateOfEntry + ", entryText=" + entryText + '}';

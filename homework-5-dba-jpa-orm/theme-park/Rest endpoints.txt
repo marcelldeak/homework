@@ -22,14 +22,7 @@ Vidámpark módosítása
 PUT
 http://localhost:8080/theme-park-web/app/themeparks/2
 Request body:
-{"name" : "KecskemetTP","address" : {"zipcode" : "H-6761","country" : "Hungary","city" : Kecskemet",
-					"street" : "Amuse utca",
-					"number" : 8/A
-				},
-	"stock" : 11000,
-	"ticketPrice" : 13,
-	"areaSize" : 550
-}
+{"name" : "KecskemetTP","address" : {"zipcode" : "H-6761","country" : "Hungary","city" : "Kecskemet","street" : "Amuse utca","number" : "8/A"},"stock" : 11000,"ticketPrice" : 13,"areaSize" : 550}
 
 //--------------------------------------------------------------
 Vidámpark törlése
@@ -99,7 +92,7 @@ http://localhost:8080/theme-park-web/app/visitors
 //--------------------------------------------------------------
 Látogató lekérdezése
 GET
-http://localhost:8080/theme-park-web/app/visitors/10
+http://localhost:8080/theme-park-web/app/visitors/1
 
 //--------------------------------------------------------------
 Látogató hozzáadása
@@ -155,7 +148,7 @@ Vendégkönyvbe írás
 POST
 http://localhost:8080/theme-park-web/app/visitors/1/writetoguestbook
 Request body:
-{"entryText" : "It's ok."}
+{"It's ok."}
 
 //--------------------------------------------------------------
 Vendégkönyvek lekérdezése

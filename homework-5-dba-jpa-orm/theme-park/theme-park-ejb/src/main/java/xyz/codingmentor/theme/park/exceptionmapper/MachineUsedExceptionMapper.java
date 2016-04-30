@@ -1,4 +1,3 @@
-
 package xyz.codingmentor.theme.park.exceptionmapper;
 
 import java.util.logging.Level;
@@ -22,5 +21,5 @@ public class MachineUsedExceptionMapper implements ExceptionMapper<MachineUsedEx
         logger.log(Level.WARNING, "Not enough money.");
         return Response.serverError().entity(new ExceptionDTO(exception.getClass().getCanonicalName(), exception.getMessage())).type(MediaType.APPLICATION_JSON).build();
     }
-    
+
 }

@@ -46,14 +46,14 @@ public class GuestBook implements Serializable {
         this.entryText = entryText;
     }
 
-    public GuestBook(GuestBookDTO guestbook){
+    public GuestBook(GuestBookDTO guestbook) {
         this.id = guestbook.getId();
         this.themePark = new ThemePark(guestbook.getThemePark());
         this.visitor = new Visitor(guestbook.getVisitor());
         this.dateOfEntry = guestbook.getDateOfEntry();
         this.entryText = guestbook.getEntryText();
     }
-    
+
     public Long getId() {
         return id;
     }

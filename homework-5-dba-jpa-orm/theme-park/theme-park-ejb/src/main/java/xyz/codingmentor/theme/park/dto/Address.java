@@ -1,4 +1,3 @@
-
 package xyz.codingmentor.theme.park.dto;
 
 import java.io.Serializable;
@@ -9,23 +8,23 @@ import javax.validation.constraints.Size;
 
 @Embeddable
 public class Address implements Serializable {
-    
+
     @NotNull
     @Pattern(regexp = "[A-Z]{1}-\\d{4}")
     private String zipcode;
-    
+
     @NotNull
     @Size(min = 1)
     private String country;
-    
+
     @NotNull
     @Size(min = 1)
     private String city;
-    
+
     @NotNull
     @Size(min = 1)
     private String street;
-    
+
     @Pattern(regexp = "[1-9]+\\d*/[A-Z]*")
     private String number;
 
@@ -77,5 +76,5 @@ public class Address implements Serializable {
     public String toString() {
         return "Address{" + "zipcode=" + zipcode + ", country=" + country + ", city=" + city + ", street=" + street + ", number=" + number + '}';
     }
-    
+
 }

@@ -11,6 +11,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import xyz.codingmentor.theme.park.dto.MachineDTO;
 
@@ -37,6 +40,12 @@ public class Machine implements Serializable {
 
     private Integer requiredAge;
 
+    @ManyToOne
+    @JoinTable(name = "theme_park_machine",
+            joinColumns = @JoinColumn(name = "theme_park_fk"),
+            inverseJoinColumns = @JoinColumn(name = "machine_fk"))
+    private ThemePark ownerThemePark;
+
     @OneToMany(mappedBy = "machine")
     private List<Visitor> visitorsRiding = new ArrayList<>();
 
@@ -44,7 +53,7 @@ public class Machine implements Serializable {
         // default constructor
     }
 
-    public Machine(Long id, String name, Integer size, Integer cost, Integer ticketPrice, Integer numberOfSeats, MachineType type, Integer requiredAge) {
+    public Machine(Long id, String name, Integer size, Integer cost, Integer ticketPrice, Integer numberOfSeats, MachineType type, Integer requiredAge, ThemePark ownerThemePark) {
         this.id = id;
         this.name = name;
         this.size = size;
@@ -53,9 +62,10 @@ public class Machine implements Serializable {
         this.numberOfSeats = numberOfSeats;
         this.type = type;
         this.requiredAge = requiredAge;
+        this.ownerThemePark = ownerThemePark;
     }
-    
-    public Machine(MachineDTO machine){
+
+    public Machine(MachineDTO machine) {
         this.id = machine.getId();
         this.name = machine.getName();
         this.size = machine.getSize();
@@ -64,6 +74,7 @@ public class Machine implements Serializable {
         this.numberOfSeats = machine.getNumberOfSeats();
         this.type = machine.getType();
         this.requiredAge = machine.getRequiredAge();
+
     }
 
     public Long getId() {
@@ -136,6 +147,14 @@ public class Machine implements Serializable {
 
     public void setVisitorsRiding(List<Visitor> visitorsRiding) {
         this.visitorsRiding = visitorsRiding;
+    }
+
+    public ThemePark getOwnerThemePark() {
+        return ownerThemePark;
+    }
+
+    public void setOwnerThemePark(ThemePark ownerThemePark) {
+        this.ownerThemePark = ownerThemePark;
     }
 
     @Override

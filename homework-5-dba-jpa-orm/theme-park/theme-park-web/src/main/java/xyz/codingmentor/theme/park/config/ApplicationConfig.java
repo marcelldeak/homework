@@ -22,6 +22,14 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(xyz.codingmentor.theme.park.exceptionmapper.DoesNotHaveMachineExceptionMapper.class);
+        resources.add(xyz.codingmentor.theme.park.exceptionmapper.EntityDoesNotExistsExceptionMapper.class);
+        resources.add(xyz.codingmentor.theme.park.exceptionmapper.GeneralExceptionMapper.class);
+        resources.add(xyz.codingmentor.theme.park.exceptionmapper.MachineUsedExceptionMapper.class);
+        resources.add(xyz.codingmentor.theme.park.exceptionmapper.NotEnoughMoneyExceptionMapper.class);
+        resources.add(xyz.codingmentor.theme.park.exceptionmapper.NotEnoughSpaceExceptionMapper.class);
+        resources.add(xyz.codingmentor.theme.park.exceptionmapper.VisitorIsNotInAnyThemeParkExceptionMapper.class);
+        resources.add(xyz.codingmentor.theme.park.exceptionmapper.VisitorTooYoungExceptionMapper.class);
         resources.add(xyz.codingmentor.theme.park.rest.GuestBookREST.class);
         resources.add(xyz.codingmentor.theme.park.rest.MachineREST.class);
         resources.add(xyz.codingmentor.theme.park.rest.ThemeParkREST.class);
