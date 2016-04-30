@@ -13,8 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import xyz.codingmentor.theme.park.entity.GuestBook;
-import xyz.codingmentor.theme.park.entity.Visitor;
+import xyz.codingmentor.theme.park.dto.GuestBookDTO;
+import xyz.codingmentor.theme.park.dto.VisitorDTO;
 import xyz.codingmentor.theme.park.service.VisitorService;
 
 @Path("/visitors")
@@ -25,37 +25,37 @@ public class VisitorREST {
     private VisitorService visitorService;
     
     @GET
-    public List<Visitor> getAll(){
+    public List<VisitorDTO> getAll(){
         return visitorService.getAllVisitor();
     }
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Visitor addVisitor(Visitor visitor){
+    public VisitorDTO addVisitor(VisitorDTO visitor){
         return visitorService.addVisitor(visitor);
     }
     
     @GET
     @Path("/{id}")
-    public Visitor getVisitorById(@PathParam("id") String id){
+    public VisitorDTO getVisitorById(@PathParam("id") String id){
         return visitorService.getVisitorById(id);
     }
     
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Visitor editVisitor(Visitor visitor){
-        return visitorService.editVisitor(visitor);
+    public VisitorDTO editVisitor(@PathParam("id") String id,VisitorDTO visitor){
+        return visitorService.editVisitor(id,visitor);
     }
     
     @DELETE
     @Path("/{id}")
-    public Visitor deleteVisitor(@PathParam("id") String id){
-        return visitorService.deleteVisitor(visitorService.getVisitorById(id));
+    public VisitorDTO deleteVisitor(@PathParam("id") String id){
+        return visitorService.deleteVisitor(id);
     }
     
     @POST
-    @Path("/{id}/entry")
+    @Path("/{id}/enter")
     public String enterThemePark(@PathParam("id") String visitorId,
             @QueryParam("themeparkid") String themeParkId){
         return visitorService.enterThemePark(visitorId, themeParkId);
@@ -84,7 +84,7 @@ public class VisitorREST {
     @POST
     @Path("/{id}/writetoguestbook")
     @Consumes(MediaType.APPLICATION_JSON)
-    public GuestBook writeToGuestBook(@PathParam("id") String visitorId, String guestBookEntry){
+    public GuestBookDTO writeToGuestBook(@PathParam("id") String visitorId, String guestBookEntry){
         return visitorService.writeToGuestBook(visitorId, guestBookEntry);
     }
 }

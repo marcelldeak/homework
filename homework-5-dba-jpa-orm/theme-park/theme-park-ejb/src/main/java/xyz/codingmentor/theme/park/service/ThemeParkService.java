@@ -1,12 +1,14 @@
 package xyz.codingmentor.theme.park.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import xyz.codingmentor.theme.park.entity.Machine;
-import xyz.codingmentor.theme.park.facade.MachineFacade;
+import xyz.codingmentor.theme.park.dto.MachineDTO;
+import xyz.codingmentor.theme.park.dto.ThemeParkDTO;
 import xyz.codingmentor.theme.park.entity.ThemePark;
 import xyz.codingmentor.theme.park.exception.DoesNotHaveMachineException;
+import xyz.codingmentor.theme.park.exception.MachineUsedException;
 import xyz.codingmentor.theme.park.exception.NotEnoughMoneyException;
 import xyz.codingmentor.theme.park.exception.NotEnoughSpaceException;
 import xyz.codingmentor.theme.park.facade.ThemeParkFacade;
@@ -19,40 +21,54 @@ public class ThemeParkService {
     private ThemeParkFacade themeParkFacade;
 
     @Inject
-    private MachineFacade machineFacade;
+    private MachineService machineService;
 
-    public List<ThemePark> getAllThemePark() {
-        return themeParkFacade.getAllThemePark();
+    public List<ThemeParkDTO> getAllThemePark() {
+        List<ThemeParkDTO> result = new ArrayList<>();
+        for (ThemePark themePark : themeParkFacade.getAllThemePark()) {
+            result.add(new ThemeParkDTO(themePark));
+        }
+        return result;
     }
 
     @Validate
-    public ThemePark addThemePark(ThemePark themePark) {
-        return themeParkFacade.create(themePark);
+    public ThemeParkDTO addThemePark(ThemeParkDTO themePark) {
+        return new ThemeParkDTO(themeParkFacade.create(new ThemePark(themePark)));
     }
 
-    public ThemePark getThemeParkById(String id) {
-        return themeParkFacade.getThemeParkById(Long.parseLong(id));
+    public ThemeParkDTO getThemeParkById(String id) {
+        return new ThemeParkDTO(themeParkFacade.getThemeParkById(Long.parseLong(id)));
     }
 
     @Validate
-    public ThemePark editThemePark(ThemePark themePark) {
-        return themeParkFacade.update(themePark);
+    public ThemeParkDTO editThemePark(String id, ThemeParkDTO themePark) {
+        ThemePark themeParkEntity = themeParkFacade.getThemeParkById(Long.parseLong(id));
+
+        themeParkEntity.setAddress(themePark.getAddress());
+        themeParkEntity.setAreaSize(themePark.getAreaSize());
+        themeParkEntity.setName(themePark.getName());
+        themeParkEntity.setStock(themePark.getStock());
+        themeParkEntity.setTicketPrice(themePark.getTicketPrice());
+
+        return new ThemeParkDTO(themeParkFacade.update(themeParkEntity));
     }
 
-    public ThemePark deleteThemePark(ThemePark themePark) {
-        return themeParkFacade.delete(themePark);
+    public ThemeParkDTO deleteThemePark(String id) {
+        return new ThemeParkDTO(themeParkFacade.delete(themeParkFacade.getThemeParkById(Long.parseLong(id))));
     }
 
     public String buyMachine(String machineId, String themeParkId) {
-        Machine machine = machineFacade.getMachineById(Long.parseLong(machineId));
-        ThemePark themePark = themeParkFacade.getThemeParkById(Long.parseLong(themeParkId));
-        
+        MachineDTO machine = machineService.getMachineById(machineId);
+        ThemeParkDTO themePark = getThemeParkById(themeParkId);
+
         if (themePark.getAreaSize() >= machine.getSize()) {
             if (themePark.getStock() >= machine.getCost()) {
-                themePark.addMachine(machine);
+
                 themePark.setAreaSize(themePark.getAreaSize() - machine.getSize());
                 themePark.setStock(themePark.getStock() - machine.getCost());
-                themeParkFacade.update(themePark);
+                themePark.addMachine(machine);
+
+                themeParkFacade.update(new ThemePark(themePark));
                 return themePark.getName() + " bought " + machine.getName();
             } else {
                 throw new NotEnoughMoneyException(themePark.getName() + " don't have enough money to buy " + machine.getName());
@@ -63,18 +79,23 @@ public class ThemeParkService {
     }
 
     public String sellMachine(String machineId, String themeParkId) {
-        ThemePark themePark = getThemeParkById(themeParkId);
-        
-        for(Machine machine : themePark.getOwnedMachines()){
-            if(machine.getId() == Long.parseLong(machineId)){
-                themePark.getOwnedMachines().remove(machine);
-                themePark.setAreaSize(themePark.getAreaSize() + machine.getSize());
-                themePark.setStock(themePark.getStock() + machine.getCost());
-                themeParkFacade.update(themePark);
-                return themePark.getName() + " sold " + machine.getName();
+        ThemeParkDTO themePark = getThemeParkById(themeParkId);
+
+        for (MachineDTO machine : themePark.getOwnedMachines()) {
+            if (machine.getId() == Long.parseLong(machineId)) {
+                if (machine.getVisitorsRiding().isEmpty()) {
+                    themePark.removeMachine(machine);
+                    themePark.setAreaSize(themePark.getAreaSize() + machine.getSize());
+                    themePark.setStock(themePark.getStock() + machine.getCost());
+                    themeParkFacade.update(themePark);
+                    return themePark.getName() + " sold " + machine.getName();
+                }
+                else{
+                    throw new MachineUsedException(machine.getName() + " is in use.");
+                }
             }
         }
-        throw new DoesNotHaveMachineException(themePark.getName() + " doesn't have " + machineFacade.getMachineById(Long.parseLong(machineId)));
+        throw new DoesNotHaveMachineException(themePark.getName() + " doesn't have " + machineService.getMachineById(machineId));
     }
 
 }

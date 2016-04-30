@@ -4,36 +4,33 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import xyz.codingmentor.theme.park.dto.GuestBookDTO;
 
 @Entity
 public class GuestBook implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @OneToOne
     @JoinColumn(name = "theme_park_id")
     private ThemePark themePark;
 
-    @NotNull
     @OneToOne
     @JoinColumn(name = "visitor_id")
     private Visitor visitor;
 
-    @NotNull
     @Temporal(TemporalType.DATE)
     private Date dateOfEntry;
 
-    @NotNull
     @Size(min = 1, max = 250)
     private String entryText;
 
@@ -41,6 +38,22 @@ public class GuestBook implements Serializable {
         // default constructor
     }
 
+    public GuestBook(Long id, ThemePark themePark, Visitor visitor, Date dateOfEntry, String entryText) {
+        this.id = id;
+        this.themePark = themePark;
+        this.visitor = visitor;
+        this.dateOfEntry = dateOfEntry;
+        this.entryText = entryText;
+    }
+
+    public GuestBook(GuestBookDTO guestbook){
+        this.id = guestbook.getId();
+        this.themePark = new ThemePark(guestbook.getThemePark());
+        this.visitor = new Visitor(guestbook.getVisitor());
+        this.dateOfEntry = guestbook.getDateOfEntry();
+        this.entryText = guestbook.getEntryText();
+    }
+    
     public Long getId() {
         return id;
     }

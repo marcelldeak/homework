@@ -12,7 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import xyz.codingmentor.theme.park.entity.GuestBook;
+import xyz.codingmentor.theme.park.dto.GuestBookDTO;
 import xyz.codingmentor.theme.park.service.GuestBookService;
 
 @Path("/guestbooks")
@@ -23,33 +23,27 @@ public class GuestBookREST {
     private GuestBookService guestBookService;
     
     @GET
-    public List<GuestBook> getAll(){
+    public List<GuestBookDTO> getAll(){
         return guestBookService.getAllGuestBook();
-    }
-    
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public GuestBook addGuestBook(GuestBook guestBook){
-        return guestBookService.addGuestBook(guestBook);
     }
     
     @GET
     @Path("/{id}")
-    public GuestBook getGuestBookById(@PathParam("id") String id){
+    public GuestBookDTO getGuestBookById(@PathParam("id") String id){
         return guestBookService.getGuestBookById(id);
     }
     
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public GuestBook editGuestBook(GuestBook guestBook){
-        return guestBookService.editGuestBook(guestBook);
+    public GuestBookDTO editGuestBook(@PathParam("id") String id,GuestBookDTO guestBook){
+        return guestBookService.editGuestBook(id,guestBook);
     }
     
     
     @DELETE
     @Path("/{id}")
-    public GuestBook deleteGuestBook(@PathParam("id") String id){
-        return guestBookService.deleteGuestBook(getGuestBookById(id));
+    public GuestBookDTO deleteGuestBook(@PathParam("id") String id){
+        return guestBookService.deleteGuestBook(id);
     }
 }

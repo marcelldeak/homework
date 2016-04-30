@@ -12,7 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import xyz.codingmentor.theme.park.entity.Machine;
+import xyz.codingmentor.theme.park.dto.MachineDTO;
 import xyz.codingmentor.theme.park.service.MachineService;
 
 @Path("/machines")
@@ -24,30 +24,30 @@ public class MachineREST {
     private MachineService machineService;
     
     @GET
-    public List<Machine> getAll(){
+    public List<MachineDTO> getAll(){
         return machineService.getAllMachine();
     }
     
     @POST
-    public Machine addMachine(Machine machine){
+    public MachineDTO addMachine(MachineDTO machine){
         return machineService.addMachine(machine);
     }
     
     @GET
     @Path("/{id}")
-    public Machine getMachineById(@PathParam("id") String id){
+    public MachineDTO getMachineById(@PathParam("id") String id){
         return machineService.getMachineById(id);
     }
     
     @PUT
     @Path("/{id}")
-    public Machine editMachine(Machine machine){
-        return machineService.editMachine(machine);
+    public MachineDTO editMachine(@PathParam("id") String id,MachineDTO machine){
+        return machineService.editMachine(id,machine);
     }
     
     @DELETE
     @Path("/{id}")
-    public Machine deleteMachine(@PathParam("id") String id){
-        return machineService.deleteMachine(getMachineById(id));
+    public MachineDTO deleteMachine(@PathParam("id") String id){
+        return machineService.deleteMachine(id);
     }
 }

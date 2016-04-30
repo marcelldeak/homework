@@ -13,7 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import xyz.codingmentor.theme.park.entity.ThemePark;
+import xyz.codingmentor.theme.park.dto.ThemeParkDTO;
 import xyz.codingmentor.theme.park.service.MachineService;
 import xyz.codingmentor.theme.park.service.ThemeParkService;
 
@@ -28,45 +28,45 @@ public class ThemeParkREST {
     private MachineService machineService;
     
     @GET
-    public List<ThemePark> getAll(){
+    public List<ThemeParkDTO> getAll(){
         return themeParkService.getAllThemePark();
     }
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public ThemePark addThemePark(ThemePark themePark){
+    public ThemeParkDTO addThemePark(ThemeParkDTO themePark){
         return themeParkService.addThemePark(themePark);
     }
     
     @GET
     @Path("/{id}")
-    public ThemePark getThemeParkById(@PathParam("id") String id){
+    public ThemeParkDTO getThemeParkById(@PathParam("id") String id){
         return themeParkService.getThemeParkById(id);
     }
     
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public ThemePark editThemePark(ThemePark themePark){
-        return themeParkService.editThemePark(themePark);
+    public ThemeParkDTO editThemePark(@PathParam("id") String id,ThemeParkDTO themePark){
+        return themeParkService.editThemePark(id,themePark);
     }
     
     @DELETE
     @Path("/{id}")
-    public ThemePark deleteThemePark(@PathParam("id") String id){
-        return themeParkService.deleteThemePark(getThemeParkById(id));
+    public ThemeParkDTO deleteThemePark(@PathParam("id") String id){
+        return themeParkService.deleteThemePark(id);
     }
     
     @POST
     @Path("/{id}/buymachine")
-    public String buyMachine(@QueryParam("machineId") String machineId,
+    public String buyMachine(@QueryParam("machineid") String machineId,
             @PathParam("id") String themeParkId){
         return themeParkService.buyMachine(machineId,themeParkId);
     }
     
     @POST
     @Path("/{id}/sellmachine")
-    public String sellMachine(@QueryParam("machineId") String machineId,
+    public String sellMachine(@QueryParam("machineid") String machineId,
             @PathParam("id") String themeParkId){
         return themeParkService.sellMachine(machineId,themeParkId);
     }

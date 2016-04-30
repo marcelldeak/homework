@@ -1,50 +1,48 @@
-package xyz.codingmentor.theme.park.entity;
 
-import xyz.codingmentor.theme.park.dto.MachineType;
-import java.io.Serializable;
+package xyz.codingmentor.theme.park.dto;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import xyz.codingmentor.theme.park.dto.MachineDTO;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import xyz.codingmentor.theme.park.entity.Machine;
+import xyz.codingmentor.theme.park.entity.Visitor;
 
-@Entity
-public class Machine implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class MachineDTO {
+    
     private Long id;
 
+    @NotNull
+    @Size(min = 1)
     private String name;
 
-    @Column(name = "machine_size")
+    @Min(1)
     private Integer size;
 
+    @Min(1)
     private Integer cost;
 
+    @Min(1)
     private Integer ticketPrice;
 
+    @Min(1)
     private Integer numberOfSeats;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private MachineType type;
 
+    @Min(1)
     private Integer requiredAge;
 
-    @OneToMany(mappedBy = "machine")
-    private List<Visitor> visitorsRiding = new ArrayList<>();
+    private List<VisitorDTO> visitorsRiding = new ArrayList<>();
 
-    public Machine() {
+    public MachineDTO() {
         // default constructor
     }
 
-    public Machine(Long id, String name, Integer size, Integer cost, Integer ticketPrice, Integer numberOfSeats, MachineType type, Integer requiredAge) {
+    public MachineDTO(Long id, String name, Integer size, Integer cost, Integer ticketPrice, Integer numberOfSeats, MachineType type, Integer requiredAge) {
         this.id = id;
         this.name = name;
         this.size = size;
@@ -55,7 +53,7 @@ public class Machine implements Serializable {
         this.requiredAge = requiredAge;
     }
     
-    public Machine(MachineDTO machine){
+    public MachineDTO(Machine machine){
         this.id = machine.getId();
         this.name = machine.getName();
         this.size = machine.getSize();
@@ -130,17 +128,16 @@ public class Machine implements Serializable {
         this.requiredAge = requiredAge;
     }
 
-    public List<Visitor> getVisitorsRiding() {
+    public List<VisitorDTO> getVisitorsRiding() {
         return visitorsRiding;
     }
 
-    public void setVisitorsRiding(List<Visitor> visitorsRiding) {
+    public void setVisitorsRiding(List<VisitorDTO> visitorsRiding) {
         this.visitorsRiding = visitorsRiding;
     }
-
+    
     @Override
     public String toString() {
-        return "Machine{" + "id=" + id + ", name=" + name + ", size=" + size + ", cost=" + cost + ", ticketPrice=" + ticketPrice + ", numberOfSeats=" + numberOfSeats + ", type=" + type + ", requiredAge=" + requiredAge + '}';
+        return "MachineDTO{" + "id=" + id + ", name=" + name + ", size=" + size + ", cost=" + cost + ", ticketPrice=" + ticketPrice + ", numberOfSeats=" + numberOfSeats + ", type=" + type + ", requiredAge=" + requiredAge + '}';
     }
-
 }

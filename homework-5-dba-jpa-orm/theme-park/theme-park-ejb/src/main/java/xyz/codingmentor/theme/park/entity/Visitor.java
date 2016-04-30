@@ -8,28 +8,26 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Min;
+import xyz.codingmentor.theme.park.dto.VisitorDTO;
 
 @Entity
-@NamedQuery(name = "restingVisitors",
-        query = "select v from Visitor v where v.state like 'REST'")
 public class Visitor implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "visitor_state")
     private State state = State.REST;
 
-    @Min(0)
     @Column(name = "pocket_money")
     private Integer pocketMoney;
 
@@ -37,18 +35,53 @@ public class Visitor implements Serializable {
     @Column(name = "time_of_enter")
     private Date timeOfEnter;
 
-    @Min(1)
     private Integer age;
 
     private Boolean activity = false;
 
-    @OneToOne
-    @JoinColumn(name = "theme_park_id")
+    @ManyToOne
+    @JoinTable(name = "theme_park_visitor",
+            joinColumns = @JoinColumn(name = "theme_park_fk"),
+            inverseJoinColumns = @JoinColumn(name = "visitor_fk"))
     private ThemePark actualPark;
+    
+    @ManyToOne
+    @JoinTable(name = "machine_visitor",
+            joinColumns = @JoinColumn(name = "machine_fk"),
+            inverseJoinColumns = @JoinColumn(name = "visitor_fk"))
+    private Machine machine;
 
 
     public Visitor() {
         // default constructor
+    }
+
+    public Visitor(Long id, Integer pocketMoney, Date timeOfEnter, Integer age, ThemePark actualPark, Machine machine) {
+        this.id = id;
+        this.pocketMoney = pocketMoney;
+        this.timeOfEnter = timeOfEnter;
+        this.age = age;
+        this.actualPark = actualPark;
+        this.machine = machine;
+    }
+    
+    public Visitor(VisitorDTO visitor) {
+        this.id = visitor.getId();
+        this.state = visitor.getState();
+        this.pocketMoney = visitor.getPocketMoney();
+        this.timeOfEnter = visitor.getTimeOfEnter();
+        this.age = visitor.getAge();
+        this.activity = visitor.getActivity();
+        if(visitor.getActualPark() == null){
+            this.actualPark = null;
+        }else{
+            this.actualPark = new ThemePark(visitor.getActualPark());
+        }
+        if(visitor.getMachine() == null){
+            this.machine = null;
+        }else{
+            this.machine = new Machine(visitor.getMachine());
+        }
     }
 
     public Long getId() {
@@ -105,6 +138,14 @@ public class Visitor implements Serializable {
 
     public void setActualPark(ThemePark actualPark) {
         this.actualPark = actualPark;
+    }
+
+    public Machine getMachine() {
+        return machine;
+    }
+
+    public void setMachine(Machine machine) {
+        this.machine = machine;
     }
 
     @Override

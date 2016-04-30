@@ -1,55 +1,44 @@
 
-package xyz.codingmentor.theme.park.entity;
+package xyz.codingmentor.theme.park.dto;
 
-import xyz.codingmentor.theme.park.dto.Address;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import xyz.codingmentor.theme.park.dto.ThemeParkDTO;
+import xyz.codingmentor.theme.park.entity.ThemePark;
 
-@Entity
-public class ThemePark implements Serializable {
+
+public class ThemeParkDTO {
     
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    @NotNull
     @Size(min = 1)
     private String name;
-
-    @Embedded
+    
+    @NotNull
     private Address address;
-
+    
+    @NotNull
     private Integer stock;
-
+    
+    @NotNull
+    @Min(1)
     private Integer ticketPrice;
-
-    @Column(name = "area_size")
+    
+    @Min(1)
     private Integer areaSize;
 
-    @OneToMany
-    @JoinTable(name = "theme_park_machine",
-            joinColumns = @JoinColumn(name = "theme_park_fk"),
-            inverseJoinColumns = @JoinColumn(name = "machine_fk"))
-    private List<Machine> ownedMachines = new ArrayList<>();
+    private List<MachineDTO> ownedMachines = new ArrayList<>();
     
-    @OneToMany(mappedBy = "actualPark")
-    private List<Visitor> visitors = new ArrayList<>();
-    
-    public ThemePark() {
+    private List<VisitorDTO> visitors = new ArrayList<>();
+
+    public ThemeParkDTO() {
         // default constructor
     }
 
-    public ThemePark(Long id, String name, Address address, Integer stock, Integer ticketPrice, Integer areaSize) {
+    public ThemeParkDTO(Long id, String name, Address address, Integer stock, Integer ticketPrice, Integer areaSize) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -57,8 +46,8 @@ public class ThemePark implements Serializable {
         this.ticketPrice = ticketPrice;
         this.areaSize = areaSize;
     }
-
-    public ThemePark(ThemeParkDTO themepark) {
+    
+    public ThemeParkDTO(ThemePark themepark) {
         this.id = themepark.getId();
         this.name = themepark.getName();
         this.address = themepark.getAddress();
@@ -66,7 +55,7 @@ public class ThemePark implements Serializable {
         this.ticketPrice = themepark.getTicketPrice();
         this.areaSize = themepark.getAreaSize();
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -115,41 +104,40 @@ public class ThemePark implements Serializable {
         this.areaSize = areaSize;
     }
 
-    public List<Machine> getOwnedMachines() {
+    public List<MachineDTO> getOwnedMachines() {
         return ownedMachines;
     }
 
-    public void setOwnedMachines(List<Machine> ownedMachines) {
+    public void setOwnedMachines(List<MachineDTO> ownedMachines) {
         this.ownedMachines = ownedMachines;
     }
-    
-    public void addMachine(Machine machine){
+
+    public void addMachine(MachineDTO machine){
         this.ownedMachines.add(machine);
     }
 
-    public void removeMachine(Machine machine){
+    public void removeMachine(MachineDTO machine){
         this.ownedMachines.remove(machine);
     }
     
-    public List<Visitor> getVisitors() {
+    public List<VisitorDTO> getVisitors() {
         return visitors;
     }
 
-    public void setVisitors(List<Visitor> visitors) {
+    public void setVisitors(List<VisitorDTO> visitors) {
         this.visitors = visitors;
     }
-
-    public void addVisitor(Visitor visitor){
+    
+    public void addVisitor(VisitorDTO visitor){
         this.visitors.add(visitor);
     }
     
-    public void removeVisitor(Visitor visitor){
+    public void removeVisitor(VisitorDTO visitor){
         this.visitors.remove(visitor);
     }
     
     @Override
     public String toString() {
-        return "ThemePark{" + "id=" + id + ", name=" + name + ", address=" + address + ", stock=" + stock + ", ticketPrice=" + ticketPrice + ", areaSize=" + areaSize + '}';
+        return "ThemeParkDTO{" + "id=" + id + ", name=" + name + ", address=" + address + ", stock=" + stock + ", ticketPrice=" + ticketPrice + ", areaSize=" + areaSize + '}';
     }
-    
 }

@@ -1,0 +1,179 @@
+Teszt scenario
+
+//--------------------------------------------------------------
+Vidámpark hozzáadása
+POST
+http://localhost:8080/theme-park-web/app/themeparks
+Request body:
+{"name" : "BpThemePark", "address" : {"zipcode" : "H-1064", "country" : "Hungary", "city" : "Budapest", "street" : "Park square", "number" : 10}, "stock" : 10000, "ticketPrice" : 10, "areaSize" : 400}
+
+//--------------------------------------------------------------
+Vidámparkok lekérdezése
+GET
+http://localhost:8080/theme-park-web/app/themeparks
+
+//--------------------------------------------------------------
+Vidámpark lekérdezése
+GET
+http://localhost:8080/theme-park-web/app/themeparks/1
+
+//--------------------------------------------------------------
+Vidámpark módosítása
+PUT
+http://localhost:8080/theme-park-web/app/themeparks/2
+Request body:
+{"name" : "KecskemetTP","address" : {"zipcode" : "H-6761","country" : "Hungary","city" : Kecskemet",
+					"street" : "Amuse utca",
+					"number" : 8/A
+				},
+	"stock" : 11000,
+	"ticketPrice" : 13,
+	"areaSize" : 550
+}
+
+//--------------------------------------------------------------
+Vidámpark törlése
+DELETE
+http://localhost:8080/theme-park-web/app/themeparks/1
+
+//--------------------------------------------------------------
+Gép vásárlása
+POST
+http://localhost:8080/theme-park-web/app/themeparks/1/buymachine/1
+
+//--------------------------------------------------------------
+Gép eladása
+POST
+http://localhost:8080/theme-park-web/app/themeparks/1/sellmachine/1
+
+//--------------------------------------------------------------
+Gépek lekérdezése
+GET
+http://localhost:8080/theme-park-web/app/machines
+
+//--------------------------------------------------------------
+Gép lekérdezése
+GET
+http://localhost:8080/theme-park-web/app/machines/1
+
+//--------------------------------------------------------------
+Gép hozzáadása
+POST
+http://localhost:8080/theme-park-web/app/machines
+Request body:
+{
+	"name" : "Gokart",
+	"size" : 50,
+	"cost" : 1000,
+	"ticketPrice" : 10,
+	"numberOfSeats" : 10,
+	"type" : "GOKART",
+	"requiredAge" : 10
+}
+
+//--------------------------------------------------------------
+Gép módosítása
+PUT
+http://localhost:8080/theme-park-web/app/machines/1
+Request body:
+{
+	"name" : "GoKart",
+	"size" : 40,
+	"cost" : 800,
+	"ticketPrice" : 8,
+	"numberOfSeats" : 12,
+	"type" : "GOKART",
+	"requiredAge" : 6
+}
+
+//--------------------------------------------------------------
+Gép törlése
+DELETE
+http://localhost:8080/theme-park-web/app/machines/1
+
+//--------------------------------------------------------------
+Látogatók lekérdezése
+GET
+http://localhost:8080/theme-park-web/app/visitors
+
+//--------------------------------------------------------------
+Látogató lekérdezése
+GET
+http://localhost:8080/theme-park-web/app/visitors/10
+
+//--------------------------------------------------------------
+Látogató hozzáadása
+POST
+http://localhost:8080/theme-park-web/app/visitors
+Request body:
+{
+	"state" : "REST",
+	"pocketMoney" : 200,
+	"age" : 25,
+	"activity" : false
+}
+
+//--------------------------------------------------------------
+Látogató módosítása
+PUT
+http://localhost:8080/theme-park-web/app/visitors/1
+Request body:
+{
+	"state" : "REST",
+	"pocketMoney" : 150,
+	"age" : 20,
+	"activity" : false
+}
+
+//--------------------------------------------------------------
+Látogató törlése
+DELETE
+http://localhost:8080/theme-park-web/app/visitors/1
+
+//--------------------------------------------------------------
+Belépés egy vidámparkba
+POST
+http://localhost:8080/theme-park-web/app/visitors/1/enter/?themeparkid=1
+
+//--------------------------------------------------------------
+Vidámpark elhagyása
+POST
+http://localhost:8080/theme-park-web/app/visitors/1/leave
+
+//--------------------------------------------------------------
+Felszállás egy gépre
+POST
+http://localhost:8080/theme-park-web/app/visitors/1/geton/?machineid=1
+
+//--------------------------------------------------------------
+Leszállás a gépről
+POST
+http://localhost:8080/theme-park-web/app/visitors/1/getoff
+
+//--------------------------------------------------------------
+Vendégkönyvbe írás
+POST
+http://localhost:8080/theme-park-web/app/visitors/1/writetoguestbook
+Request body:
+{"entryText" : "It's ok."}
+
+//--------------------------------------------------------------
+Vendégkönyvek lekérdezése
+GET
+http://localhost:8080/theme-park-web/app/guestbooks
+
+//--------------------------------------------------------------
+Vendégkönyv lekérdezése
+GET
+http://localhost:8080/theme-park-web/app/guestbooks/1
+
+//--------------------------------------------------------------
+Vendégkönyv módosítása
+PUT
+http://localhost:8080/theme-park-web/app/guestbooks/1
+{"entryText" : "It was absolutly ok."}
+
+//--------------------------------------------------------------
+Vendégkönyv törlése
+DELETE
+http://localhost:8080/theme-park-web/app/guestbooks/1
