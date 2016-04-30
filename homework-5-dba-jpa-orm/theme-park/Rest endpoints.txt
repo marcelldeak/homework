@@ -148,7 +148,7 @@ Vendégkönyvbe írás
 POST
 http://localhost:8080/theme-park-web/app/visitors/1/writetoguestbook
 Request body:
-{"It's ok."}
+It's ok.
 
 //--------------------------------------------------------------
 Vendégkönyvek lekérdezése
@@ -164,7 +164,7 @@ http://localhost:8080/theme-park-web/app/guestbooks/1
 Vendégkönyv módosítása
 PUT
 http://localhost:8080/theme-park-web/app/guestbooks/1
-{"entryText" : "It was absolutly ok."}
+It was absolutly ok.
 
 //--------------------------------------------------------------
 Vendégkönyv törlése
